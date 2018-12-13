@@ -7,7 +7,7 @@ use App\Position;
 
 class Employee extends Model
 {
-    protected $fillable = ['name','bio','avatar','position_id'];
+    protected $fillable = ['name','bio','avatar','slug','position_id','employee_id'];
 
     public function positions(){ 
         return $this->belongsToMany('App\Position','employee_position','employee_id','position_id');

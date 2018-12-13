@@ -4,29 +4,22 @@
 
 @section('content')
 
-<form class="from-group" action="/employee" method="Post">
-    @csrf
-    <p>Formulario para Crear un Empleado con su trabajo</p>
+{!! Form::open(['route' => 'employees.store', 'method' => 'POST', 'files' => true  ]) !!}
+<!-- form Field -->
 
-    <div class="from-group">
-        <label for="">Nombre</label>
-        <input type="text" name="name" class="from-control">
-    </div>
+@include('employees.form')
+
+<!-- Submit Field -->
+{!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+
+{!! Form::close() !!}
+
+    @endsection
 <!--
     <div class="from-group">
         <label for="">Nombre Cargp</label>
         <input type="text" name="name2" class="from-control">
     </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
 -->
-    <div class="from-group">
-        <label for="">Aqui debe Aparecer los cargos ya existente para selecionar y se guarde en la tabla pivot</label>
-        <input type="select" name="" class="from-control">
-    </div>
-
-    <button type="submit" class="btn btn-primary">Guardar</button>
-    
-    </form>
-
-    @endsection
-
 

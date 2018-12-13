@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Position;
 use App\Employee;
 use App\EmployeePosition;
-
 class EmployeeController extends Controller
 {
     /**
@@ -17,12 +14,10 @@ class EmployeeController extends Controller
     public function index()
     {
         $employees= Employee::with('positions')->get();
-        $positions= Position::all();
+        $positions= Position::with('employees')->get();
         //$relaciones= EmployeePosition::all();
-
-        return view('employees.index', compact('employees','positions','relaciones'));   
+        return view('employees.index', compact('employees','positions'));   
      }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -30,10 +25,10 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        return view('employees.create');
+        $posi= Position::pluck('name','id');
 
+        return view('employees.create',compact('posi'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -43,21 +38,25 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         $employee= new Employee();
-        $position= new Position();
+        //$position= new Position();
         //$relacion=  new EmployeesPosition();
         
         $employee->name = $request->input('name');
-        $position->name = $request->input('name2');
-        //$relacion->employee_id = $request->input('employee_id');
-        //$relacion->position_id = $request->input('position_id');
-
+        if($request->hasFile('avatar')){
+            $file = $request->file('avatar');
+            $namea = time().$file->getClientOriginalName();
+            $file->move(public_path().'/images/', $namea);
+        }
+        $empresa->name = $request->input('name');
+        $empresa->bio = $request->input('bio');
+        $empresa->avatar = $namea; 
+        $empresa->slug = $request->input('slug');
+        //$position->name = $request->input('name2');
         $employee->save();
-        $position->save();
+        //$position->save();
         //$relacion->save();
-
         return 'saved';
     }
-
     /**
      * Display the specified resource.
      *
@@ -68,7 +67,6 @@ class EmployeeController extends Controller
     {
         return view('employees.show', compact('employee'));
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -78,9 +76,7 @@ class EmployeeController extends Controller
     public function edit(employee $employee)
     {
         return view('employee.edit', compact('employee'));
-
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -90,9 +86,16 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+        
+        $employee = Employee::findOrFail($id);
+        $employee->name = $request->get('name');
+        $employee->bio = $request->get('bio');
+        $employee->slug = $request->get('slug');
 
+        $infoJunta->save();
+        return redirect()->route('employee.show');
+
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -101,7 +104,6 @@ class EmployeeController extends Controller
      */
     public function destroy(Request $request, employee $employee)
     {
-
         $employee->delete();
         return redirect()->route('employee.index')->with('status','employee Eliminado');
         //return 'deleted';
