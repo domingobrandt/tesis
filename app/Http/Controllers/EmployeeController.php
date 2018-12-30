@@ -39,6 +39,8 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
+        $posi= Position::pluck('name','id');
+
         $employee= new Employee();
         if($request->hasFile('avatar')){
             $file = $request->file('avatar');

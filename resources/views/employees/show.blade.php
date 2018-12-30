@@ -19,7 +19,7 @@
                 {!! Form::open(['route' => 'employees.store']) !!}
                 <div class="form-group col-sm-6">
                     {!! Form::label('posi', 'posi:') !!}
-                    {!! Form::select('posi', posi , null, ['class' => 'form-control']) !!}
+                    {!! Form::select('posi', $posi , null, ['class' => 'form-control']) !!}
                 </div>
                 {!! Form::close() !!}
             </div>
