@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Position;
 use App\Employee;
 use App\EmployeePosition;
-use App\Http\Requests\StoreEmployeeRequest;
+use App\Http\Requests\StorePositionRequest;
 
 class PositionController extends Controller
 {
@@ -41,7 +41,7 @@ class PositionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreEmployeeRequest $request)
+    public function store(StorePositionRequest $request)
     {
         $position= new Position();
         if($request->hasFile('avatar')){
