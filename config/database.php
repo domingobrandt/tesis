@@ -1,5 +1,8 @@
 <?php
 
+$DATABASE_URL=parse_url('postgres://zhmlaoaytoxdan:e3bb5cd535a83982d772646350dc8ef09fd6fbc487422bc653072f40955a430b@ec2-54-235-169-191.compute-1.amazonaws.com:5432/dadho4j1dgg5l6');
+
+
 return [
 
     /*
@@ -13,7 +16,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'herokupsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -32,6 +35,19 @@ return [
     */
 
     'connections' => [
+
+        'herokupsql' => [
+            'driver' => 'herokupsql',
+            'host' => $DATABASE_URL["host"],
+            'port' => $DATABASE_URL["port"],
+            'database' => ltrim($DATABASE_URL["path"], "/"),
+            'username' => $DATABASE_URL["user"],
+            'password' => $DATABASE_URL["pass"],
+            'charset' => 'utf8',
+            'prefix' => '',
+            'schema' => 'public',
+            'sslmode' => 'require',
+        ],
 
         'sqlite' => [
             'driver' => 'sqlite',
