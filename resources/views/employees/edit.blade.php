@@ -4,13 +4,14 @@
 
 @section('content')
 
+{!! Form::model($employee, ['route' => ['employees.update', $employee], 'method' => 'PUT', 'files' => true ]) !!}
 
-{!! Form::open(['route' => ['employee.update', $employee], 'method' => 'PUT', 'files' => true ]) !!}
+<p>Formulario para Editar un Empleado </p>
 
-@include('employees.form')
+@include('layouts.form')
 
 <!-- Submit Field -->
-{!! Form::submit('Actulizar', ['class' => 'btn btn-primary']) !!}
+{!! Form::submit('Actualizar', ['class' => 'btn btn-primary']) !!}
 
 {!! Form::close() !!}
 @endsection

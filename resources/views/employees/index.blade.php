@@ -10,15 +10,15 @@
 
             <p>Listado de Empleados</p>
             @foreach($employees as $employee)
-            <ol>
-                <ul><label>id del empleado:_</label>{{ $employee->id }}</ul>
-                <ul><label>Nombre del empleado:_ </label>{{ $employee->name }}</ul>
-                <ul><label>slug del empleado:_ </label>{{ $employee->slug }}</ul>
-
+            <ul>
+                <li><label>id del empleado:_</label>{{ $employee->id }}</li>
+                <li><label>Nombre del empleado:_ </label>{{ $employee->name }}</li>
+                <li><label>slug del empleado:_ </label>{{ $employee->slug }}</li>
                     @foreach ($employee->positions as $position)
-                        <ul><label>Cargo del Empleado:_</label>{{ $position->name }}</ul>
+                        <li><label>Cargo del Empleado:_</label>{{ $position->name }}</li>
                     @endforeach
-            </ol>
+                    <a href="/employees/{{$employee->slug}}" class="btn btn-primary">More..</a>
+            </ul>
             @endforeach
 
 @endsection

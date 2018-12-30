@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use App\Position;
 use App\Employee;
 use App\EmployeePosition;
+use App\Http\Requests\StoreEmployeeRequest;
+
 class EmployeeController extends Controller
 {
     /**
@@ -11,7 +13,7 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $employees= Employee::with('positions')->get();
         $positions= Position::with('employees')->get();
@@ -23,7 +25,7 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $posi= Position::pluck('name','id');
 
@@ -35,27 +37,22 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEmployeeRequest $request)
     {
         $employee= new Employee();
-        //$position= new Position();
-        //$relacion=  new EmployeesPosition();
-        
-        $employee->name = $request->input('name');
         if($request->hasFile('avatar')){
             $file = $request->file('avatar');
             $namea = time().$file->getClientOriginalName();
             $file->move(public_path().'/images/', $namea);
         }
-        $empresa->name = $request->input('name');
-        $empresa->bio = $request->input('bio');
-        $empresa->avatar = $namea; 
-        $empresa->slug = $request->input('slug');
-        //$position->name = $request->input('name2');
+        $employee->name = $request->input('name');
+        $employee->bio = $request->input('bio');
+        $employee->avatar = $namea; 
+        $employee->slug = $request->input('slug');
         $employee->save();
-        //$position->save();
-        //$relacion->save();
-        return 'saved';
+
+
+        return redirect()->route('employees.index')->with('status','employee creado');
     }
     /**
      * Display the specified resource.
@@ -75,7 +72,7 @@ class EmployeeController extends Controller
      */
     public function edit(employee $employee)
     {
-        return view('employee.edit', compact('employee'));
+        return view('employees.edit', compact('employee'));
     }
     /**
      * Update the specified resource in storage.
@@ -84,16 +81,18 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, employee $employee )
     {
-        
-        $employee = Employee::findOrFail($id);
-        $employee->name = $request->get('name');
-        $employee->bio = $request->get('bio');
-        $employee->slug = $request->get('slug');
+        $employee->fill($request->except('avatar'));
+        if($request->hasFile('avatar')){
+            $file = $request->file('avatar');
+            $namea = time().$file->getClientOriginalName();
+            $employee->avatar =$namea;
+            $file->move(public_path().'/images/', $namea);
+        }
+        $employee->save();
 
-        $infoJunta->save();
-        return redirect()->route('employee.show');
+        return redirect()->route('employees.show', [$employee])->with('status','employee actualizado correctament');
 
     }
     /**
@@ -104,8 +103,10 @@ class EmployeeController extends Controller
      */
     public function destroy(Request $request, employee $employee)
     {
+        $file_path = public_path().'/images/'.$employee->avatar;
+        \File::delete($file_path);
         $employee->delete();
-        return redirect()->route('employee.index')->with('status','employee Eliminado');
+        return redirect()->route('employees.index')->with('status','employee Eliminado');
         //return 'deleted';
     }
 }

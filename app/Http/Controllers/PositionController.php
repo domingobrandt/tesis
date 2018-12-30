@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Position;
+use App\Employee;
+use App\EmployeePosition;
+use App\Http\Requests\StoreEmployeeRequest;
 
 class PositionController extends Controller
 {
@@ -11,9 +15,12 @@ class PositionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $positions= Position::with('employees')->get();
+        $employees= Employee::with('positions')->get();
 
+        return view('positions.index', compact('positions','employees'));
     }
 
     /**
@@ -21,9 +28,11 @@ class PositionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $empo= Employee::pluck('name','id');
+
+        return view('positions.create',compact('empo'));
     }
 
     /**
@@ -32,9 +41,21 @@ class PositionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEmployeeRequest $request)
     {
-        //
+        $position= new Position();
+        if($request->hasFile('avatar')){
+            $file = $request->file('avatar');
+            $namea = time().$file->getClientOriginalName();
+            $file->move(public_path().'/images/', $namea);
+        }
+        $position->name = $request->input('name');
+        $position->bio = $request->input('bio');
+        $position->avatar = $namea; 
+        $position->slug = $request->input('slug');
+        $position->save();
+                return redirect()->route('positions.index')->with('status','positions creado');
+
     }
 
     /**
@@ -43,9 +64,10 @@ class PositionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show( position $position)
     {
-        //
+        return view('positions.show', compact('position'));
+
     }
 
     /**
@@ -54,9 +76,10 @@ class PositionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit( position $position)
     {
-        //
+        return view('positions.edit', compact('position'));
+
     }
 
     /**
@@ -66,9 +89,19 @@ class PositionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, position $position)
     {
-        //
+        $position->fill($request->except('avatar'));
+        if($request->hasFile('avatar')){
+            $file = $request->file('avatar');
+            $namea = time().$file->getClientOriginalName();
+            $position->avatar =$namea;
+            $file->move(public_path().'/images/', $namea);
+        }
+        $position->save();
+
+        return redirect()->route('positions.show', [$position])->with('status','position actualizado correctament');
+
     }
 
     /**
@@ -77,8 +110,11 @@ class PositionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, position $position)
     {
-        //
+        $file_path = public_path().'/images/'.$position->avatar;
+        \File::delete($file_path);
+        $position->delete();
+        return redirect()->route('positions.index')->with('status','position Eliminado');
     }
 }

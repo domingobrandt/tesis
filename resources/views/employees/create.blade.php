@@ -4,17 +4,19 @@
 
 @section('content')
 
-{!! Form::open(['route' => 'employees.store', 'method' => 'POST', 'files' => true  ]) !!}
-<!-- form Field -->
+{!! Form::open(['route' => 'employees.store', 'method' => 'POST', 'files' => true ]) !!}
 
-@include('employees.form')
+<!-- form Field -->
+<p>Formulario para Crear un Empleado con su trabajo</p>
+
+@include('layouts.form')
 
 <!-- Submit Field -->
-{!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+{!! Form::submit('save', ['class' => 'btn btn-primary']) !!}
 
 {!! Form::close() !!}
 
-    @endsection
+ @endsection
 <!--
     <div class="from-group">
         <label for="">Nombre Cargp</label>
