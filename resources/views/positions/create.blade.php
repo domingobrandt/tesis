@@ -9,7 +9,16 @@
 <!-- form Field -->
 <p>Formulario para Crear un Cargo</p>
 
-@include('layouts.form')
+<div class="form-group">
+    {!! Form::label('name', 'name:') !!}
+    {!! Form::text('name', null, ['class' => 'form-control']) !!}
+</div>
+
+ <!-- bio Field -->
+<div class="form-group">
+        {!!Form::label('bio','Descripcion')!!}
+        {!!Form::text('bio',null,['class'=>'form-control'])!!}
+</div>
 
 <!-- Submit Field -->
 {!! Form::submit('save', ['class' => 'btn btn-primary']) !!}

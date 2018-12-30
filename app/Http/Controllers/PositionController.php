@@ -44,15 +44,10 @@ class PositionController extends Controller
     public function store(StorePositionRequest $request)
     {
         $position= new Position();
-        if($request->hasFile('avatar')){
-            $file = $request->file('avatar');
-            $namea = time().$file->getClientOriginalName();
-            $file->move(public_path().'/images/', $namea);
-        }
+
         $position->name = $request->input('name');
         $position->bio = $request->input('bio');
-        $position->avatar = $namea; 
-        $position->slug = $request->input('slug');
+        $position->slug = str_slug($position->name);
         $position->save();
                 return redirect()->route('positions.index')->with('status','positions creado');
 
