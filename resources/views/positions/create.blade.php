@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title','Employees Create')
+@section('title','Positions Create')
 
 @section('content')
 
-{!! Form::open(['route' => 'employees.store', 'method' => 'POST', 'files' => true ]) !!}
+{!! Form::open(['route' => 'positions.store', 'method' => 'POST', 'files' => true ]) !!}
 
 <!-- form Field -->
-<p>Formulario para Crear un Trabajo</p>
+<p>Formulario para Crear un Cargo</p>
 
 @include('layouts.form')
 

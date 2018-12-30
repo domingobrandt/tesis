@@ -27,8 +27,6 @@ class StorePositionRequest extends FormRequest
 
                 'name' =>'required|max:50',
                 'bio' =>'required',
-                'slug'=>'required',
-                'avatar'=>'required|image|mimes:jpeg,bmp,png'
 
         ];
     }
