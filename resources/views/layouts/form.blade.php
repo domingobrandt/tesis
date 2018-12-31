@@ -23,7 +23,7 @@
 </div>
  <!-- Cargo Field -->
 
-<div class="form-group col-sm-6">
+<div class="form-group">
     {!! Form::label('posi', 'posi:') !!}
     {!! Form::select('posi', $posi , null, ['class' => 'form-control']) !!}
 </div>
