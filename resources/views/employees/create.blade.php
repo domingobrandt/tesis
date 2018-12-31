@@ -25,3 +25,10 @@
         <button type="submit" class="btn btn-primary">Guardar</button>
 -->
 
+
+<div class="box-body">
+    <div class="row">
+        {!! Form::open(['route' => 'employees.store']) !!}
+       
+        {!! Form::close() !!}
+    </div>

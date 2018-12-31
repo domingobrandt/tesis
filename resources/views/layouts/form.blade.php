@@ -21,3 +21,9 @@
     {!!Form::label('avatar','Avatar')!!}
     {!!Form::file('avatar',['class' => 'btn btn'])!!}
 </div>
+ <!-- Cargo Field -->
+
+<div class="form-group col-sm-6">
+    {!! Form::label('posi', 'posi:') !!}
+    {!! Form::select('posi', $posi , null, ['class' => 'form-control']) !!}
+</div>
