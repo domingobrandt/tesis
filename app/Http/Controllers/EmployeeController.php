@@ -61,8 +61,9 @@ class EmployeeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show( employee $employee)
-    {
-        return view('employees.show', compact('employee'));
+    {        $posi= Position::pluck('name','id');
+
+        return view('employees.show', compact('employee','posi'));
     }
     /**
      * Show the form for editing the specified resource.
@@ -72,7 +73,7 @@ class EmployeeController extends Controller
      */
     public function edit(employee $employee)
     {
-        return view('employees.edit', compact('employee'));
+        return view('employees.edit', compact('employee','posi'));
     }
     /**
      * Update the specified resource in storage.

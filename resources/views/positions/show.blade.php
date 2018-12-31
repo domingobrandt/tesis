@@ -13,6 +13,7 @@
          <label>Relacion</label>
          <p class="card-text">{{$position->employees}}</p>
          <a href="/positions/{{$position->slug}}/edit" class="btn btn-primary"> Editar </a>
+
          {!! Form::open([ 'route' => ['positions.destroy', $position->slug], 'method' => 'DELETE']) !!}
 
     {!! Form::submit('Eliminar', ['class' => 'btn btn-danger']) !!}
